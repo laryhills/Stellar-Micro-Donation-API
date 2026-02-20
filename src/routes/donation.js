@@ -43,7 +43,6 @@ router.post('/verify', async (req, res) => {
   }
 });
 
-const Transaction = require('./models/transaction');
 
 /**
  * POST /donations
@@ -54,7 +53,7 @@ router.post('/', (req, res) => {
 
     const idempotencyKey = req.headers['idempotency-key'];
 
-     if (!idempotencyKey) {
+    if (!idempotencyKey) {
       return res.status(400).json({
         success: false,
         error: {
@@ -143,7 +142,7 @@ router.get('/recent', (req, res) => {
     }
 
     const transactions = Transaction.getAll();
-    
+
     // Sort by timestamp descending (most recent first)
     const sortedTransactions = transactions
       .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
@@ -180,7 +179,7 @@ router.get('/recent', (req, res) => {
 router.get('/:id', (req, res) => {
   try {
     const transaction = Transaction.getById(req.params.id);
-    
+
     if (!transaction) {
       return res.status(404).json({
         error: 'Donation not found'
